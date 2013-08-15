@@ -4,20 +4,20 @@
 
 */
 	/** File: connection.js
-		A class to start RTCPeerConnection, provide signaling interface to clients,
-		send and receive session description, ice. Handle the session description and
-		ice depending on whether its an offer or answer.
-		
-		To intitiate a peer connection do the following:
-		var con = new Credo.Connection(configuration,onSessionDesc,onIce,mediaSession,success,failure);
-		configuration		: configuration object to be passed to RTCPeerConnection, you may pass 
-							  stun servers here
-		onSessionDesc		: a call back credo.js will call, when RTCPeerConnection generates a session description
-		onIce		 		: not mandatory, only required if you want to pass ice over signalling for 
-							  'ice trickling' mode
-		mediaSession 		: an already initialized media session
-		'success/failure' 	: callbacks for success / failure
-		
+	*	A class to start RTCPeerConnection, provide signaling interface to clients,
+	*	send and receive session description, ice. Handle the session description and
+	*	ice depending on whether its an offer or answer.
+	*	
+	*	To intitiate a peer connection do the following:
+	*	var con = new Credo.Connection(configuration,onSessionDesc,onIce,mediaSession,success,failure);
+	*	configuration		: configuration object to be passed to RTCPeerConnection, you may pass 
+	*						  stun servers here
+	*	onSessionDesc		: a call back credo.js will call, when RTCPeerConnection generates a session description
+	*	onIce		 		: not mandatory, only required if you want to pass ice over signalling for 
+	*						  'ice trickling' mode
+	*	mediaSession 		: an already initialized media session
+	*	'success/failure' 	: callbacks for success / failure
+	*For more information refer: https://github.com/hvardhanu/Credo.js/wiki/Credo.js-API
 	*
 	*/
 

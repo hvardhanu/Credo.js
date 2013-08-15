@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<title>Credo.js basic example</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+		<script src="./Credo.js/src/media.js"></script>
+		<script src="./Credo.js/src/peerconnection.js"></script>
+		<script src="http://<your ip where socket.io script is running>/socket.io/socket.io.js"></script>
+		<script type='text/javascript'>
+		
+		 //Getting the socket io infra ready
+  var socket = io.connect('http://<your ip where socket.io script is running>');
+			
+			var config = {'iceServers': [{'url': 'stun:stun.l.google.com:19302'}]};
+			
+			var failure = function(error){
+				console.log(error);
+			}
+			var success = function(error){
+				console.log(error);
+			}
+			
+			//The call back method that will be called, so you can pass it to signalling
+			var onSessionDesc = function(localDesc){
+				console.log('Session description generated\n'+JSON.stringify(localDesc));
+				socket.emit('sdp',localDesc);
+			}
+			
+			//====Credo.js invokation Step 1 initiate media====
+			var mediaSession = new Credo.Media('AV','localVid','remVid',success,failure);
+			mediaSession.start();
+			
+			//====Credo.js invokation Step 2 initiate connection, step 3 is con.call() when you want the session to start <input type="submit" onclick="con.call();" name="connect" id="connect"/>====
+			var con = new Credo.Connection(config,onSessionDesc,null,mediaSession,success,failure);
+		
+			socket.on('sdp',function(evt){
+			console.log("received:"+JSON.stringify(evt.sdp));
+			con.descriptionReceived(evt)
+			});
+			
+		</script>
+		
+	</head>	
+	<body>
+	<div style="tex">Credo.js.. WebRTC example</div>
+	<div style="display: inline">
+		<video id="localVid" autoplay="autoplay" height="300" width="400"></video>
+		<input type="submit" onclick="con.call();" name="connect" id="connect"/>
+		<video id="remVid" autoplay="autoplay" height="300" width="400"></video>	
+	</div>
+	</body>
+</html>
