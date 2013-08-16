@@ -160,7 +160,6 @@
 	}
 
 	Credo.Connection.prototype.onLocalSessionDesc = function(sessionDesc,connection){
-		console.log('got sd');
 		connection.peerConnection.setLocalDescription(sessionDesc);
 		if(connection.state!=Credo.STATE.PAUSED_FORICE){
 			connection.onSessionDesc(sessionDesc);
