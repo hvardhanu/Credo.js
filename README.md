@@ -56,3 +56,5 @@ credo.js provides handlers/callbacks at the appripriate places for integration w
 =========
 
 The examples folder contains an sample Audio / Video chat application. Use the provided node.js script (uses Socket.io) on server to run the example.
+
+API: https://github.com/hvardhanu/Credo.js/wiki/Credo.js-API

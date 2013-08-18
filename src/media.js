@@ -20,6 +20,7 @@
 		*	
 		*	'success/failure' - callbacks for success / failure
 		*
+		*For more information refer: https://github.com/hvardhanu/Credo.js/wiki/Credo.js-API
 	*/
 
 	Credo = {
@@ -85,9 +86,9 @@ Credo.Media = function(callType, localMediaElemId, remoteMediaElemId, success, f
 		if(navigator.getUserMedia){
 				if(this.callType==Credo.CALLTYPE.AUDIO_VIDEO){				
 					 media=navigator.getUserMedia({audio:true, video:true},trigger,triggerFail);					 
-				}else if(this.callType==Credo.CALLTYPE.AUDIO){
+				}else if(this.callType==Credo.CALLTYPE.AUDIO_ONLY){
 					 media=navigator.getUserMedia({audio:true, video:false},trigger,triggerFail);			
-				}else if(this.callType==Credo.CALLTYPE.VIDEO){
+				}else if(this.callType==Credo.CALLTYPE.VIDEO_ONLY){
 					 media=navigator.getUserMedia({audio:false, video:true},trigger,triggerFail);			
 				}else{
 					failure("The provided call type:"+this.callType+" is not supported.");
