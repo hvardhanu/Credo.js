@@ -36,7 +36,9 @@
 		CALLTYPE : {
 			VIDEO_ONLY: 'V',
 			AUDIO_ONLY: 'A',
-			AUDIO_VIDEO: 'AV'	
+			AUDIO_VIDEO: 'AV',
+			SCREEN_ONLY: 'S',
+			SCREEN_AUDIO: 'SA'
 		},
 		PEERTYPE : {
 			LOCAL: 0,
@@ -80,8 +82,7 @@ Credo.Media = function(callType, localMediaElemId, remoteMediaElemId, success, f
 			failMethod(error);
 		}
 			
-		navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia ||
-				navigator.mozGetUserMedia || navigator.msGetUserMedia);
+		navigator.getUserMedia = this.getUserMediaObject();
 		
 		if(navigator.getUserMedia){
 				if(this.callType==Credo.CALLTYPE.AUDIO_VIDEO){				
@@ -90,6 +91,14 @@ Credo.Media = function(callType, localMediaElemId, remoteMediaElemId, success, f
 					 media=navigator.getUserMedia({audio:true, video:false},trigger,triggerFail);			
 				}else if(this.callType==Credo.CALLTYPE.VIDEO_ONLY){
 					 media=navigator.getUserMedia({audio:false, video:true},trigger,triggerFail);			
+				}else if(this.callType==Credo.CALLTYPE.SCREEN_ONLY){
+					try{
+						media=navigator.getUserMedia({video:{mandatory: {chromeMediaSource: 'screen'}}},trigger,triggerFail);		
+						} 
+					catch(error){
+						failure(error.message+" Screen cast is not supported in your browser. Please note this feature requires enabling on screen sharing on chrome flags. chrome://flags/");
+						return;
+						}
 				}else{
 					failure("The provided call type:"+this.callType+" is not supported.");
 					return;
@@ -97,6 +106,22 @@ Credo.Media = function(callType, localMediaElemId, remoteMediaElemId, success, f
 		}else{
 			this.failure("Your browser does not support WebRTC media capabilities for this request.");
 		}
+	}
+	
+	Credo.Media.prototype.getUserMediaObject = function(){
+		return (navigator.getUserMedia || navigator.webkitGetUserMedia ||
+				navigator.mozGetUserMedia || navigator.msGetUserMedia);
+	}
+	
+	Credo.Media.prototype.stop = function(){
+		var localVideo = document.querySelector("#"+this.localMediaElemId);
+		var remoteVideo = document.querySelector("#"+this.remoteMediaElemId);
+		this.localStream.stop();
+		if(this.remoteStream){
+		 this.remoteStream.stop();
+		}
+		localVideo.src = "";
+		remoteVideo.src = "";
 	}
 
 	Credo.Media.prototype.onMedia = function(stream,mediaObj,type){

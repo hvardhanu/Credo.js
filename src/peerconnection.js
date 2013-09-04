@@ -65,7 +65,12 @@
 		this.createOfferAnswer();
 			
 	}
-
+	
+	Credo.Connection.prototype.disconnect = function(){
+		
+			
+	}
+	
 	Credo.Connection.prototype.descriptionReceived = function(sessionDesc){
 		console.log('received desc'+JSON.stringify(sessionDesc));
 		if(this.isOffer && (sessionDesc.type=="answer" || sessionDesc.type=="pranswer")){

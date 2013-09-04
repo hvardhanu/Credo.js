@@ -15,6 +15,7 @@
 		
 	});
 	
+	
 	/**
 	 *Testing connection init, offer generation
 	 */
@@ -31,6 +32,39 @@
 		
 	});
 	
+	asyncTest( "asynchronous test: testing media stop", 1, function() {
+	var localvideo = document.querySelector("#localVid");
+		var onSuspend=function(){
+		ok( true, "media is stopped" );
+			start();
+		};
+		localvideo.addEventListener("emptied",onSuspend,false);
+		mediaSession.stop();
+	});
+	
+	
+	/*var mediaSession=null;
+	asyncTest( "asynchronous test: testing local screencasting", 1, function() {
+		var localvideo = document.querySelector("#localVid");
+		localvideo.pause();
+                if(typeof navigator.webkitGetUserMedia != undefined)
+                {     
+                    localvideo.src=null;
+                }
+                else if(typeof navigator.mozGetUserMedia != undefined)
+                {
+                    localvideo.mozSrcObject=null;
+                }
+		localPlaying=function(){
+			ok( true, "screen has loaded" );
+			start();
+		};
+		localvideo.addEventListener("play",localPlaying,false);
+		mediaSession = new Credo.Media('S','localVid','remVid',message,message);
+		mediaSession.start();
+		
+	});*/
+
 	/**
 	 *Testing remote 
 	 */
