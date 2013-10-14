@@ -31,7 +31,8 @@
 			PAUSED: 2,
 			PAUSED_FORICE: 3,
 			CONNECTED:4,
-			MEDIAON: 5	
+			MEDIAON: 5,
+			DISCONNECTED: 6
 		},	
 		CALLTYPE : {
 			VIDEO_ONLY: 'V',
@@ -114,14 +115,21 @@ Credo.Media = function(callType, localMediaElemId, remoteMediaElemId, success, f
 	}
 	
 	Credo.Media.prototype.stop = function(){
-		var localVideo = document.querySelector("#"+this.localMediaElemId);
-		var remoteVideo = document.querySelector("#"+this.remoteMediaElemId);
-		this.localStream.stop();
-		if(this.remoteStream){
-		 this.remoteStream.stop();
-		}
-		localVideo.src = "";
-		remoteVideo.src = "";
+		try{	
+			var localVideo = document.querySelector("#"+this.localMediaElemId);
+			var remoteVideo = document.querySelector("#"+this.remoteMediaElemId);
+			if(this.localStream){
+			this.localStream.stop();
+			}
+			if(this.remoteStream){
+			 this.remoteStream.stop();
+			}
+			localVideo.src = "";
+			remoteVideo.src = "";
+			this.connection.setState(Credo.STATE.DISCONNECTED);
+			}catch(err){
+				this.failure(ex.message);
+			}
 	}
 
 	Credo.Media.prototype.onMedia = function(stream,mediaObj,type){

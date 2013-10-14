@@ -39,7 +39,7 @@
 			start();
 		};
 		localvideo.addEventListener("emptied",onSuspend,false);
-		mediaSession.stop();
+		conn.disconnect();
 	});
 	
 	

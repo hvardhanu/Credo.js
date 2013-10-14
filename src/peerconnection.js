@@ -67,7 +67,7 @@
 	}
 	
 	Credo.Connection.prototype.disconnect = function(){
-		
+		this.mediaObj.stop();
 			
 	}
 	
